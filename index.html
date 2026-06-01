@@ -28,33 +28,48 @@
             -webkit-user-select: none;
         }
 
-        /* Panel esmerilado de vidrio templado oscuro optimizado sin brillos en texto */
+        /* Forzar aceleración de hardware en capas complejas para fluidez absoluta en iOS/Android */
+        .ambient-haze, 
+        .cosmic-ring-container, 
+        .cosmic-ring-glow, 
+        .cosmic-ring-core, 
+        .glass-panel, 
+        .download-btn {
+            transform: translate3d(0, 0, 0);
+            -webkit-transform: translate3d(0, 0, 0);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            perspective: 1000px;
+            will-change: transform, opacity;
+        }
+
+        /* Panel esmerilado de vidrio templado optimizado para rendimiento móvil (blur a 16px es óptimo) */
         .glass-panel {
-            background: rgba(12, 6, 8, 0.65);
-            backdrop-filter: blur(35px);
-            -webkit-backdrop-filter: blur(35px);
-            border: 1.5px solid rgba(255, 255, 255, 0.05);
+            background: rgba(12, 6, 8, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
             box-shadow: 
-                inset 0 1.5px 2px rgba(255, 255, 255, 0.09),
-                inset 0 -1.5px 1.5px rgba(0, 0, 0, 0.5),
-                0 30px 80px -10px rgba(0, 0, 0, 0.9);
+                inset 0 1px 1px rgba(255, 255, 255, 0.12),
+                inset 0 -1.5px 1.5px rgba(0, 0, 0, 0.6),
+                0 30px 80px -10px rgba(0, 0, 0, 0.95);
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .glass-panel:hover {
             box-shadow: 
-                inset 0 1.5px 2px rgba(255, 255, 255, 0.12),
-                inset 0 -1.5px 1.5px rgba(0, 0, 0, 0.5),
+                inset 0 1px 1px rgba(255, 255, 255, 0.15),
+                inset 0 -1.5px 1.5px rgba(0, 0, 0, 0.6),
                 0 0 50px rgba(239, 68, 68, 0.08),
                 0 30px 80px -10px rgba(0, 0, 0, 0.95);
         }
 
-        /* Anillo luminoso de fondo y atmósfera cósmica */
+        /* Anillo luminoso de fondo optimizado (animaciones fluidas sin blur dinámico) */
         .cosmic-ring-container {
             position: absolute;
             bottom: -430px;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translateX(-50%) translate3d(0, 0, 0);
             width: 820px;
             height: 820px;
             pointer-events: none;
@@ -71,7 +86,7 @@
                 0 -20px 45px rgba(239, 68, 68, 0.5),
                 inset 0 20px 45px rgba(239, 68, 68, 0.3);
             filter: blur(5px);
-            animation: ring-pulse 6s infinite ease-in-out;
+            animation: ring-pulse 8s infinite ease-in-out;
         }
 
         .cosmic-ring-core {
@@ -87,49 +102,52 @@
         }
 
         @keyframes ring-pulse {
-            0%, 100% { opacity: 0.9; transform: scale(1); }
-            50% { opacity: 1.2; transform: scale(1.015); filter: blur(4px); }
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1.0; transform: scale(1.015); }
         }
 
         .ambient-haze {
             position: absolute;
             width: 600px;
             height: 600px;
-            background: radial-gradient(circle, rgba(185, 28, 28, 0.18) 0%, transparent 75%);
+            background: radial-gradient(circle, rgba(185, 28, 28, 0.15) 0%, transparent 75%);
             top: 45%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%) translate3d(0, 0, 0);
             pointer-events: none;
             z-index: 1;
-            animation: haze-glow 12s infinite ease-in-out;
+            animation: haze-glow 14s infinite ease-in-out;
         }
 
         @keyframes haze-glow {
-            0%, 100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1); }
-            50% { opacity: 1.2; transform: translate(-50%, -50%) scale(1.1); }
+            0%, 100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 1.0; transform: translate(-50%, -50%) scale(1.08); }
         }
 
-        /* Estilos de botones de descarga */
+        /* Estilo premium de botones de descarga: bordes ultra pulidos y definidos */
         .download-btn {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            background: rgba(255, 255, 255, 0.015);
+            border: 1.5px solid rgba(255, 255, 255, 0.08); /* Borde nítido */
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.04),
+                0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
             overflow: hidden;
         }
 
         .download-btn:hover {
-            background: rgba(239, 68, 68, 0.08);
-            border-color: rgba(239, 68, 68, 0.25);
+            background: rgba(239, 68, 68, 0.06);
+            border-color: rgba(239, 68, 68, 0.35); /* Borde rojo nítido al pasar mouse */
             box-shadow: 
-                inset 0 1px 0 rgba(255, 255, 255, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.06),
                 0 10px 30px -5px rgba(239, 68, 68, 0.12);
-            transform: translateY(-2px);
+            transform: translateY(-1.5px);
         }
 
         .download-btn:active {
-            transform: translateY(1px);
+            transform: translateY(1px) scale(0.99);
+            transition: all 0.1s ease;
         }
 
         .download-progress-bar {
@@ -169,13 +187,13 @@
 
     <!-- Contenedor de descarga principal con dimensiones ampliadas para texto completo -->
     <main class="w-full flex justify-center items-center py-6 z-20">
-        <div class="w-full max-w-[480px] glass-panel rounded-[32px] p-8 text-white relative">
+        <div class="w-full max-w-[480px] glass-panel rounded-[32px] p-6 md:p-8 text-white relative">
             
-            <!-- PANEL SUPERIOR: Información de la Distribución (Avatar eliminado para alineación limpia) -->
+            <!-- PANEL SUPERIOR: Información de la Distribución -->
             <div class="flex items-center justify-between mb-8">
                 <div>
                     <h2 class="text-[16px] font-extrabold tracking-tight text-white/95 leading-tight select-none">
-                        wYMagicDonwloads
+                        wYMagicDownloads
                     </h2>
                     <span class="text-xs text-[#8c9096] font-semibold leading-normal select-none">
                         Active APP
@@ -197,7 +215,7 @@
                     <!-- Barra de Progreso Interna -->
                     <div id="progress-bar-1" class="download-progress-bar"></div>
                     
-                    <!-- Información de descarga sin saltos de línea molestos -->
+                    <!-- Información de descarga sin truncar ni cortar texto -->
                     <div class="flex items-center space-x-4 z-10 w-full pr-2">
                         <div class="w-11 h-11 bg-red-950/40 border border-red-500/20 rounded-xl flex-shrink-0 flex items-center justify-center text-red-400 group-hover:text-white transition-colors duration-300">
                             <!-- Icono Descarga Moderno -->
@@ -218,7 +236,7 @@
                     <!-- Peso del Archivo / Estado -->
                     <div class="text-right z-10 flex-shrink-0">
                         <span id="badge-dl-1" class="bg-white/5 border border-white/5 px-3 py-1.5 rounded-lg text-xs font-bold text-[#ccd4e0] group-hover:text-white group-hover:bg-red-500/10 group-hover:border-red-500/20 transition-all duration-300 whitespace-nowrap">
-                            40 MB
+                            142 MB
                         </span>
                     </div>
                 </button>
@@ -228,7 +246,7 @@
                     <!-- Barra de Progreso Interna -->
                     <div id="progress-bar-2" class="download-progress-bar"></div>
                     
-                    <!-- Información de descarga sin saltos de línea molestos -->
+                    <!-- Información de descarga sin truncar ni cortar texto -->
                     <div class="flex items-center space-x-4 z-10 w-full pr-2">
                         <div class="w-11 h-11 bg-red-950/40 border border-red-500/20 rounded-xl flex-shrink-0 flex items-center justify-center text-red-400 group-hover:text-white transition-colors duration-300">
                             <!-- Icono Descarga Moderno -->
@@ -249,7 +267,7 @@
                     <!-- Peso del Archivo / Estado -->
                     <div class="text-right z-10 flex-shrink-0">
                         <span id="badge-dl-2" class="bg-white/5 border border-white/5 px-3 py-1.5 rounded-lg text-xs font-bold text-[#ccd4e0] group-hover:text-white group-hover:bg-red-500/10 group-hover:border-red-500/20 transition-all duration-300 whitespace-nowrap">
-                            40 MB
+                            84 MB
                         </span>
                     </div>
                 </button>
@@ -260,7 +278,7 @@
 
     <!-- PIE DE PÁGINA: Firma oficial de red corporativa y desarrollador sin botones adicionales -->
     <footer class="w-full flex flex-col items-center justify-center z-20 pb-4">
-        <!-- Diseñador / Distribuidor Badge sin icono circular de avatar -->
+        <!-- Diseñador / Distribuidor Badge -->
         <div class="flex items-center px-5 py-3 rounded-full bg-black/40 border border-red-500/10 backdrop-blur-md">
             <div class="flex flex-col text-center">
                 <span class="text-xs font-extrabold text-white/95 leading-none mb-1">wYMagicServer</span>
@@ -268,7 +286,7 @@
             </div>
         </div>
 
-        <!-- Firma de desarrollador solicitada -->
+        <!-- Firma de desarrollador -->
         <div class="mt-4 text-[11px] text-white/35 font-bold tracking-widest select-none uppercase hover:text-red-400 transition-colors duration-300">
             Dev: YettaZs
         </div>
@@ -374,7 +392,7 @@
                         badge.className = "bg-emerald-500/25 border border-emerald-500/40 px-3 py-1.5 rounded-lg text-xs font-bold text-emerald-400";
                         
                         // Icono de Checkmark de éxito
-                        icon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path>`;
+                        icon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4.5 12.75l6 6 9-13.5" stroke="currentColor"></path>`;
                         
                         // Enviar al link de MEGA provisto después de un micro retardo para asimilar el éxito
                         setTimeout(() => {
