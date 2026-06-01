@@ -2,14 +2,14 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>wYMagicServer - Official Downloads</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Plus Jakarta Sans e Inter para tipografía premium -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -18,58 +18,50 @@
             --accent-red: #ef4444;
         }
 
-        body {
-            font-family: var(--font-primary);
+        /* Bloqueo absoluto de scroll en html y body para móviles */
+        html, body {
+            width: 100%;
+            height: 100%;
+            height: -webkit-fill-available;
+            margin: 0;
+            padding: 0;
+            overflow: hidden !important;
             background-color: var(--bg-color);
-            background-image: 
-                radial-gradient(circle at 50% 30%, #1a0407 0%, #030306 80%);
-            overflow-x: hidden;
+            font-family: var(--font-primary);
             user-select: none;
             -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* Forzar aceleración de hardware en capas complejas para fluidez absoluta en iOS/Android */
-        .ambient-haze, 
-        .cosmic-ring-container, 
-        .cosmic-ring-glow, 
-        .cosmic-ring-core, 
-        .glass-panel, 
-        .download-btn {
-            transform: translate3d(0, 0, 0);
-            -webkit-transform: translate3d(0, 0, 0);
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            perspective: 1000px;
-            will-change: transform, opacity;
+        /* Fondo fijo optimizado para rendimiento extremo (sin repaints) */
+        .bg-gradient-fixed {
+            position: fixed;
+            inset: 0;
+            background-color: #030306;
+            background-image: radial-gradient(circle at 50% 30%, #1a0407 0%, #030306 80%);
+            z-index: -2;
+            pointer-events: none;
         }
 
-        /* Panel esmerilado de vidrio templado optimizado para rendimiento móvil (blur a 16px es óptimo) */
+        /* Panel esmerilado de vidrio templado oscuro con bordes hiper-definidos */
         .glass-panel {
             background: rgba(12, 6, 8, 0.75);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             box-shadow: 
-                inset 0 1px 1px rgba(255, 255, 255, 0.12),
-                inset 0 -1.5px 1.5px rgba(0, 0, 0, 0.6),
-                0 30px 80px -10px rgba(0, 0, 0, 0.95);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                inset 0 1px 1px rgba(255, 255, 255, 0.08),
+                inset 0 -1px 1px rgba(0, 0, 0, 0.5),
+                0 20px 50px rgba(0, 0, 0, 0.85);
+            will-change: transform;
         }
 
-        .glass-panel:hover {
-            box-shadow: 
-                inset 0 1px 1px rgba(255, 255, 255, 0.15),
-                inset 0 -1.5px 1.5px rgba(0, 0, 0, 0.6),
-                0 0 50px rgba(239, 68, 68, 0.08),
-                0 30px 80px -10px rgba(0, 0, 0, 0.95);
-        }
-
-        /* Anillo luminoso de fondo optimizado (animaciones fluidas sin blur dinámico) */
+        /* Arco planetario del fondo optimizado para GPU sin filtros pesados */
         .cosmic-ring-container {
             position: absolute;
             bottom: -430px;
             left: 50%;
-            transform: translateX(-50%) translate3d(0, 0, 0);
+            transform: translateX(-50%);
             width: 820px;
             height: 820px;
             pointer-events: none;
@@ -81,12 +73,12 @@
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            border-top: 5px solid #ef4444;
+            border-top: 4px solid #ef4444;
             box-shadow: 
-                0 -20px 45px rgba(239, 68, 68, 0.5),
-                inset 0 20px 45px rgba(239, 68, 68, 0.3);
-            filter: blur(5px);
-            animation: ring-pulse 8s infinite ease-in-out;
+                0 -15px 35px rgba(239, 68, 68, 0.4),
+                inset 0 15px 35px rgba(239, 68, 68, 0.2);
+            opacity: 0.85;
+            will-change: opacity;
         }
 
         .cosmic-ring-core {
@@ -96,331 +88,280 @@
             border-radius: 50%;
             border-top: 1.5px solid #ffffff;
             box-shadow: 
-                0 -4px 15px rgba(255, 255, 255, 0.95),
-                0 -10px 28px #b91c1c;
-            opacity: 0.98;
+                0 -3px 10px rgba(255, 255, 255, 0.9),
+                0 -8px 20px #b91c1c;
+            opacity: 0.95;
         }
 
-        @keyframes ring-pulse {
-            0%, 100% { opacity: 0.8; transform: scale(1); }
-            50% { opacity: 1.0; transform: scale(1.015); }
-        }
-
+        /* Capa de atmósfera estática */
         .ambient-haze {
             position: absolute;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(185, 28, 28, 0.15) 0%, transparent 75%);
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(185, 28, 28, 0.15) 0%, transparent 70%);
             top: 45%;
             left: 50%;
-            transform: translate(-50%, -50%) translate3d(0, 0, 0);
+            transform: translate(-50%, -50%);
             pointer-events: none;
             z-index: 1;
-            animation: haze-glow 14s infinite ease-in-out;
         }
 
-        @keyframes haze-glow {
-            0%, 100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
-            50% { opacity: 1.0; transform: translate(-50%, -50%) scale(1.08); }
-        }
-
-        /* Estilo premium de botones de descarga: bordes ultra pulidos y definidos */
+        /* Botones de descarga con bordes definidos estilo cristal pulido */
         .download-btn {
-            background: rgba(255, 255, 255, 0.015);
-            border: 1.5px solid rgba(255, 255, 255, 0.08); /* Borde nítido */
+            background: rgba(18, 10, 12, 0.5);
+            border: 1px solid rgba(239, 68, 68, 0.18);
             box-shadow: 
-                inset 0 1px 0 rgba(255, 255, 255, 0.04),
-                0 4px 10px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                inset 0 1px 1px rgba(255, 255, 255, 0.03),
+                0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
+                        background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
+                        transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
             overflow: hidden;
+            will-change: transform;
         }
 
-        .download-btn:hover {
-            background: rgba(239, 68, 68, 0.06);
-            border-color: rgba(239, 68, 68, 0.35); /* Borde rojo nítido al pasar mouse */
-            box-shadow: 
-                inset 0 1px 0 rgba(255, 255, 255, 0.06),
-                0 10px 30px -5px rgba(239, 68, 68, 0.12);
-            transform: translateY(-1.5px);
+        /* Hover de alto rendimiento exclusivo para ordenadores (evita problemas en móviles) */
+        @media (hover: hover) {
+            .download-btn:hover {
+                background-color: rgba(239, 68, 68, 0.08);
+                border-color: rgba(239, 68, 68, 0.35);
+                transform: translateY(-1.5px);
+            }
         }
 
+        /* Feedback táctil instantáneo y fluido para móviles */
         .download-btn:active {
-            transform: translateY(1px) scale(0.99);
-            transition: all 0.1s ease;
+            transform: scale(0.98);
+            background-color: rgba(239, 68, 68, 0.14) !important;
+            border-color: rgba(239, 68, 68, 0.45) !important;
         }
 
+        /* Progreso de descarga optimizado sin filtros de desenfoque */
         .download-progress-bar {
             position: absolute;
             left: 0;
             top: 0;
             bottom: 0;
             width: 0%;
-            background: linear-gradient(90deg, rgba(239, 68, 68, 0.05) 0%, rgba(239, 68, 68, 0.18) 100%);
+            background: linear-gradient(90deg, rgba(239, 68, 68, 0.06) 0%, rgba(239, 68, 68, 0.22) 100%);
             border-right: 2px solid #ef4444;
-            transition: width 0.1s linear;
+            transition: width 0.08s linear;
             pointer-events: none;
+            will-change: width;
         }
 
-        /* Ocultar scrollbar */
-        ::-webkit-scrollbar {
-            display: none;
+        /* Botón de Soporte Flotante con refracción suave */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 50;
+            background: rgba(18, 48, 28, 0.6);
+            border: 1.5px solid rgba(34, 197, 94, 0.3);
+            box-shadow: 
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                0 10px 25px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s;
+            will-change: transform;
+        }
+
+        .whatsapp-float:active {
+            transform: scale(0.9);
+            background-color: rgba(34, 197, 94, 0.4);
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between items-center p-4 md:p-8 relative overflow-hidden">
+<body class="relative flex flex-col justify-between items-center overflow-hidden">
 
-    <!-- Capa de iluminación trasera -->
+    <!-- Fondo e iluminación fija (Rendimiento optimizado) -->
+    <div class="bg-gradient-fixed"></div>
     <div class="ambient-haze"></div>
 
-    <!-- Cabecera principal: Texto limpio y sólido sin efectos de brillo difuso -->
-    <header class="w-full max-w-[500px] flex flex-col justify-center items-center z-20 mt-4 md:mt-8 mb-2">
-        <div class="relative">
-            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-white select-none text-center">
+    <!-- Contenedor Master de interfaz ajustado estrictamente al 100% de alto de pantalla visible -->
+    <div class="fixed inset-0 w-full h-full flex flex-col justify-between items-center p-5 md:p-8 overflow-hidden z-20">
+        
+        <!-- CABECERA PRINCIPAL: Sólida y nítida sin efectos de brillo -->
+        <header class="w-full max-w-[480px] flex flex-col justify-center items-center mt-3 md:mt-6 select-none">
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-white text-center">
                 wYMagicServer
             </h1>
-        </div>
-        <span class="text-[10px] font-black text-red-500/90 tracking-[0.35em] uppercase mt-3 select-none">
-            Best GSM Serverrr
-        </span>
-    </header>
+            <span class="text-[10px] font-black text-red-500 tracking-[0.35em] uppercase mt-2.5">
+                Best GSM Server
+            </span>
+        </header>
 
-    <!-- Contenedor de descarga principal con dimensiones ampliadas para texto completo -->
-    <main class="w-full flex justify-center items-center py-6 z-20">
-        <div class="w-full max-w-[480px] glass-panel rounded-[32px] p-6 md:p-8 text-white relative">
-            
-            <!-- PANEL SUPERIOR: Información de la Distribución -->
-            <div class="flex items-center justify-between mb-8">
-                <div>
-                    <h2 class="text-[16px] font-extrabold tracking-tight text-white/95 leading-tight select-none">
-                        wYMagicDownloads
-                    </h2>
-                    <span class="text-xs text-[#8c9096] font-semibold leading-normal select-none">
-                        Active APP
-                    </span>
-                </div>
-
-                <!-- Insignia de Estado ONLINE -->
-                <div class="flex items-center space-x-2 bg-red-950/40 border border-red-500/25 px-3 py-1.5 rounded-full">
-                    <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
-                    <span class="text-[9px] font-black text-red-400 tracking-widest">ONLINE</span>
-                </div>
-            </div>
-
-            <!-- Listado de botones de descarga optimizados -->
-            <div class="space-y-4" id="download-container">
+        <!-- PANEL DE DESCARGAS PRINCIPAL (Ajuste responsivo sin desbordamientos) -->
+        <main class="w-full max-w-[460px] my-auto flex justify-center items-center py-2">
+            <div class="w-full glass-panel rounded-[28px] p-6 md:p-8 text-white">
                 
-                <!-- BOTÓN 1: Download APP 1 -->
-                <button id="btn-download-1" onclick="startDownload(1, 'https://mega.nz/file/Aq4UHTDT#JBB79zh6jMPAjUxfWboIQHDZrfGH8A-mf242_rvsASs')" class="download-btn w-full flex items-center justify-between p-4.5 rounded-2xl group text-left">
-                    <!-- Barra de Progreso Interna -->
-                    <div id="progress-bar-1" class="download-progress-bar"></div>
-                    
-                    <!-- Información de descarga sin truncar ni cortar texto -->
-                    <div class="flex items-center space-x-4 z-10 w-full pr-2">
-                        <div class="w-11 h-11 bg-red-950/40 border border-red-500/20 rounded-xl flex-shrink-0 flex items-center justify-center text-red-400 group-hover:text-white transition-colors duration-300">
-                            <!-- Icono Descarga Moderno -->
-                            <svg id="icon-dl-1" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" class="w-5 h-5 transition-transform duration-300 group-hover:translate-y-0.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v12m0 0l-3.5-3.5M12 16l3.5-3.5M19 20H5"></path>
-                            </svg>
-                        </div>
-                        <div class="min-w-0 flex-grow">
-                            <span id="text-title-1" class="text-[15px] font-bold text-[#ccd4e0] group-hover:text-white transition-colors duration-300 block">
-                                Download APP 1
-                            </span>
-                            <span id="text-subtitle-1" class="text-xs text-[#6e7279] font-semibold block mt-0.5">
-                                Main Application • Stable Build v3.8
-                            </span>
-                        </div>
-                    </div>
-                    
-                    <!-- Peso del Archivo / Estado -->
-                    <div class="text-right z-10 flex-shrink-0">
-                        <span id="badge-dl-1" class="bg-white/5 border border-white/5 px-3 py-1.5 rounded-lg text-xs font-bold text-[#ccd4e0] group-hover:text-white group-hover:bg-red-500/10 group-hover:border-red-500/20 transition-all duration-300 whitespace-nowrap">
-                            142 MB
+                <!-- Cabecera de la Tarjeta (Alineación limpia sin avatares) -->
+                <div class="flex items-center justify-between mb-6 md:mb-8 select-none">
+                    <div>
+                        <h2 class="text-[17px] font-extrabold tracking-tight text-white leading-tight">
+                            wYMagicDownloads
+                        </h2>
+                        <span class="text-xs text-[#8c9096] font-semibold block mt-0.5">
+                            Active APP
                         </span>
                     </div>
-                </button>
 
-                <!-- BOTÓN 2: Download APP 2 -->
-                <button id="btn-download-2" onclick="startDownload(2, 'https://mega.nz/file/4BkAyDga#kDecyvXiFKKwoIE-8kLUtOf1fFhFf2dMNx9HzeT7VnY')" class="download-btn w-full flex items-center justify-between p-4.5 rounded-2xl group text-left">
-                    <!-- Barra de Progreso Interna -->
-                    <div id="progress-bar-2" class="download-progress-bar"></div>
-                    
-                    <!-- Información de descarga sin truncar ni cortar texto -->
-                    <div class="flex items-center space-x-4 z-10 w-full pr-2">
-                        <div class="w-11 h-11 bg-red-950/40 border border-red-500/20 rounded-xl flex-shrink-0 flex items-center justify-center text-red-400 group-hover:text-white transition-colors duration-300">
-                            <!-- Icono Descarga Moderno -->
-                            <svg id="icon-dl-2" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" class="w-5 h-5 transition-transform duration-300 group-hover:translate-y-0.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v12m0 0l-3.5-3.5M12 16l3.5-3.5M19 20H5"></path>
-                            </svg>
-                        </div>
-                        <div class="min-w-0 flex-grow">
-                            <span id="text-title-2" class="text-[15px] font-bold text-[#ccd4e0] group-hover:text-white transition-colors duration-300 block">
-                                Download APP 2
-                            </span>
-                            <span id="text-subtitle-2" class="text-xs text-[#6e7279] font-semibold block mt-0.5">
-                                Companion Tools & Drivers Pack
-                            </span>
-                        </div>
+                    <!-- Insignia ONLINE nítida -->
+                    <div class="flex items-center space-x-2 bg-red-950/45 border border-red-500/25 px-3 py-1.5 rounded-full">
+                        <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                        <span class="text-[9px] font-black text-red-400 tracking-widest">ONLINE</span>
                     </div>
+                </div>
+
+                <!-- Lista de descargas ultra-responsiva y optimizada -->
+                <div class="space-y-4">
                     
-                    <!-- Peso del Archivo / Estado -->
-                    <div class="text-right z-10 flex-shrink-0">
-                        <span id="badge-dl-2" class="bg-white/5 border border-white/5 px-3 py-1.5 rounded-lg text-xs font-bold text-[#ccd4e0] group-hover:text-white group-hover:bg-red-500/10 group-hover:border-red-500/20 transition-all duration-300 whitespace-nowrap">
-                            84 MB
-                        </span>
-                    </div>
-                </button>
+                    <!-- BOTÓN 1: Download APP 1 -->
+                    <button id="btn-download-1" onclick="startDownload(1, 'https://mega.nz/file/Aq4UHTDT#JBB79zh6jMPAjUxfWboIQHDZrfGH8A-mf242_rvsASs')" class="download-btn w-full flex items-center justify-between p-4 rounded-xl group text-left">
+                        <div id="progress-bar-1" class="download-progress-bar"></div>
+                        
+                        <!-- Contenido alineado a la izquierda -->
+                        <div class="flex items-center space-x-3.5 z-10 min-w-0 flex-grow pr-2">
+                            <div class="w-10 h-10 bg-red-950/40 border border-red-500/20 rounded-lg flex-shrink-0 flex items-center justify-center text-red-400">
+                                <svg id="icon-dl-1" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" class="w-5 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v12m0 0l-3.5-3.5M12 16l3.5-3.5M19 20H5"></path>
+                                </svg>
+                            </div>
+                            <div class="min-w-0">
+                                <span id="text-title-1" class="text-[14px] font-extrabold text-[#ccd4e0] group-hover:text-white transition-colors duration-200 block">
+                                    Download APP 1
+                                </span>
+                                <span id="text-subtitle-1" class="text-[11px] text-[#6e7279] font-medium block mt-0.5">
+                                    Main Application • Stable Build
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Badge de tamaño a la derecha -->
+                        <div class="text-right z-10 flex-shrink-0">
+                            <span id="badge-dl-1" class="bg-white/5 border border-white/5 px-2.5 py-1.5 rounded-lg text-xs font-bold text-[#ccd4e0]">
+                                142 MB
+                            </span>
+                        </div>
+                    </button>
 
+                    <!-- BOTÓN 2: Download APP 2 -->
+                    <button id="btn-download-2" onclick="startDownload(2, 'https://mega.nz/file/4BkAyDga#kDecyvXiFKKwoIE-8kLUtOf1fFhFf2dMNx9HzeT7VnY')" class="download-btn w-full flex items-center justify-between p-4 rounded-xl group text-left">
+                        <div id="progress-bar-2" class="download-progress-bar"></div>
+                        
+                        <div class="flex items-center space-x-3.5 z-10 min-w-0 flex-grow pr-2">
+                            <div class="w-10 h-10 bg-red-950/40 border border-red-500/20 rounded-lg flex-shrink-0 flex items-center justify-center text-red-400">
+                                <svg id="icon-dl-2" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" class="w-5 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v12m0 0l-3.5-3.5M12 16l3.5-3.5M19 20H5"></path>
+                                </svg>
+                            </div>
+                            <div class="min-w-0">
+                                <span id="text-title-2" class="text-[14px] font-extrabold text-[#ccd4e0] group-hover:text-white transition-colors duration-200 block">
+                                    Download APP 2
+                                </span>
+                                <span id="text-subtitle-2" class="text-[11px] text-[#6e7279] font-medium block mt-0.5">
+                                    Companion Tools & Drivers
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="text-right z-10 flex-shrink-0">
+                            <span id="badge-dl-2" class="bg-white/5 border border-white/5 px-2.5 py-1.5 rounded-lg text-xs font-bold text-[#ccd4e0]">
+                                84 MB
+                            </span>
+                        </div>
+                    </button>
+
+                </div>
             </div>
-        </div>
-    </main>
+        </main>
 
-    <!-- PIE DE PÁGINA: Firma oficial de red corporativa y desarrollador sin botones adicionales -->
-    <footer class="w-full flex flex-col items-center justify-center z-20 pb-4">
-        <!-- Diseñador / Distribuidor Badge -->
-        <div class="flex items-center px-5 py-3 rounded-full bg-black/40 border border-red-500/10 backdrop-blur-md">
-            <div class="flex flex-col text-center">
-                <span class="text-xs font-extrabold text-white/95 leading-none mb-1">wYMagicServer</span>
-                <span class="text-[10px] text-[#71757c] font-semibold leading-none uppercase tracking-wider">Best GSM Server</span>
+        <!-- PIE DE PÁGINA: Firma corporativa y de desarrollador libre de lag -->
+        <footer class="w-full flex flex-col items-center justify-center mb-3 select-none">
+            <div class="flex items-center px-5 py-2.5 rounded-full bg-black/40 border border-red-500/10 backdrop-blur-md">
+                <div class="flex flex-col text-center">
+                    <span class="text-xs font-extrabold text-white/95 leading-none mb-1">wYMagicServer</span>
+                    <span class="text-[9px] text-[#71757c] font-bold leading-none uppercase tracking-wider">Best GSM Server</span>
+                </div>
             </div>
-        </div>
 
-        <!-- Firma de desarrollador -->
-        <div class="mt-4 text-[11px] text-white/35 font-bold tracking-widest select-none uppercase hover:text-red-400 transition-colors duration-300">
-            Dev: YettaZs
-        </div>
-    </footer>
+            <!-- Firma del desarrollador requested -->
+            <div class="mt-3 text-[10px] text-white/35 font-black tracking-widest uppercase hover:text-red-400 transition-colors duration-200">
+                Dev: YettaZs
+            </div>
+        </footer>
 
-    <!-- Botón Flotante de Soporte de WhatsApp -->
-    <a href="https://wa.me/message/K3NUVQUXNQGDL1" target="_blank" rel="noopener noreferrer" class="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 bg-[#25D366]/10 hover:bg-[#25D366]/20 border border-[#25D366]/30 hover:border-[#25D366]/60 rounded-full shadow-[0_8px_32px_rgba(37,211,102,0.15)] transition-all duration-300 hover:scale-110 active:scale-95 group" title="WhatsApp Support">
-        <!-- Anillo pulsante exterior -->
-        <span class="absolute inset-0 rounded-full bg-[#25D366]/20 animate-ping opacity-75 group-hover:opacity-100"></span>
-        <!-- Icono SVG oficial de WhatsApp -->
-        <svg class="w-7 h-7 text-[#25D366] relative z-10 transition-transform duration-300 group-hover:rotate-12" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.458 5.705 1.459h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </div>
+
+    <!-- BOTÓN DE SOPORTE WHATSAPP FLOTANTE -->
+    <a href="https://wa.me/message/K3NUVQUXNQGDL1" target="_blank" rel="noopener noreferrer" class="whatsapp-float p-3 rounded-full flex items-center justify-center text-green-400 hover:text-white" title="Soporte Técnico">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.455 5.703 1.456h.004c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path>
         </svg>
     </a>
 
-    <!-- Arco del planeta brillante del fondo -->
+    <!-- ARCO CÓSMICO DEL FONDO (Estabilizado mecánicamente sin repaints innecesarios) -->
     <div class="cosmic-ring-container">
         <div class="cosmic-ring-glow"></div>
         <div class="cosmic-ring-core"></div>
     </div>
 
+    <!-- Script ultra-ligero y asíncrono para descargas -->
     <script>
-        // Controladores de audio sintetizado para feedback orgánico
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        let isSoundEnabled = true;
-
-        function playInterfaceSound(type) {
-            if (!isSoundEnabled) return;
-            try {
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                
-                if (type === 'click') {
-                    osc.frequency.setValueAtTime(450, audioCtx.currentTime);
-                    osc.frequency.exponentialRampToValueAtTime(700, audioCtx.currentTime + 0.04);
-                    gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
-                    osc.start();
-                    osc.stop(audioCtx.currentTime + 0.04);
-                } else if (type === 'hover') {
-                    osc.frequency.setValueAtTime(280, audioCtx.currentTime);
-                    osc.frequency.exponentialRampToValueAtTime(340, audioCtx.currentTime + 0.03);
-                    gain.gain.setValueAtTime(0.012, audioCtx.currentTime);
-                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.03);
-                    osc.start();
-                    osc.stop(audioCtx.currentTime + 0.03);
-                } else if (type === 'success') {
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(520, audioCtx.currentTime);
-                    osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.08);
-                    osc.frequency.setValueAtTime(880, audioCtx.currentTime + 0.16);
-                    gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.35);
-                    osc.start();
-                    osc.stop(audioCtx.currentTime + 0.35);
-                }
-            } catch (e) {
-                console.log("Audio temporalmente bloqueado hasta interacción del usuario.");
-            }
-        }
-
-        // Simulación interactiva de proceso de descarga con redirección segura
         const activeDownloads = {};
 
         function startDownload(id, redirectUrl) {
-            if (activeDownloads[id]) return; // Evitar clicks duplicados durante la animación
+            if (activeDownloads[id]) return;
 
             activeDownloads[id] = true;
-            playInterfaceSound('click');
 
-            const btn = document.getElementById(`btn-download-${id}`);
             const progressBar = document.getElementById(`progress-bar-${id}`);
             const textTitle = document.getElementById(`text-title-${id}`);
             const textSubtitle = document.getElementById(`text-subtitle-${id}`);
             const badge = document.getElementById(`badge-dl-${id}`);
             const icon = document.getElementById(`icon-dl-${id}`);
 
-            // Cambiar icono original de descarga a un spinner animado circular
+            // Cambiar icono a spinner animado óptimo en CSS nativo
             icon.innerHTML = `<circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2.5" stroke-dasharray="35" class="animate-spin" fill="none"></circle>`;
             
             let progress = 0;
             const originalTitle = textTitle.innerText;
             textTitle.innerHTML = `Downloading...`;
-            badge.className = "bg-red-500/20 border border-red-500/40 px-3 py-1.5 rounded-lg text-xs font-extrabold text-red-400 animate-pulse";
+            badge.className = "bg-red-500/20 border border-red-500/40 px-2.5 py-1.5 rounded-lg text-xs font-extrabold text-red-400 animate-pulse";
 
             const interval = setInterval(() => {
-                // Incremento dinámico realista de velocidad
-                progress += Math.floor(Math.random() * 8) + 4;
+                // Incremento aleatorio fluido
+                progress += Math.floor(Math.random() * 8) + 5;
                 if (progress >= 100) {
                     progress = 100;
                     clearInterval(interval);
                     
-                    // Finalización de animación exitosa
                     progressBar.style.width = '100%';
+                    
                     setTimeout(() => {
-                        playInterfaceSound('success');
                         textTitle.innerHTML = originalTitle;
                         textSubtitle.innerHTML = `Redirecting to server...`;
                         badge.innerHTML = `COMPLETED ✓`;
-                        badge.className = "bg-emerald-500/25 border border-emerald-500/40 px-3 py-1.5 rounded-lg text-xs font-bold text-emerald-400";
+                        badge.className = "bg-emerald-500/25 border border-emerald-500/40 px-2.5 py-1.5 rounded-lg text-xs font-bold text-emerald-400";
                         
                         // Icono de Checkmark de éxito
-                        icon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4.5 12.75l6 6 9-13.5" stroke="currentColor"></path>`;
+                        icon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path>`;
                         
-                        // Enviar al link de MEGA provisto después de un micro retardo para asimilar el éxito
+                        // Redirección directa al correspondiente link de MEGA provisto
                         setTimeout(() => {
                             window.location.href = redirectUrl;
-                        }, 900);
+                        }, 500);
 
-                    }, 200);
+                    }, 150);
                 } else {
                     progressBar.style.width = `${progress}%`;
                     badge.innerHTML = `${progress}%`;
-                    textSubtitle.innerHTML = `Connecting to high-speed mirror node...`;
+                    textSubtitle.innerHTML = `Connecting to high-speed mirror...`;
                 }
-            }, 100);
+            }, 80);
         }
-
-        // Vincular sonidos analógicos sutiles en hover a cada fila de descarga
-        document.querySelectorAll('.download-btn').forEach(btn => {
-            btn.addEventListener('mouseenter', () => {
-                playInterfaceSound('hover');
-            });
-        });
-
-        // Activar el AudioContext en la primera acción de interacción del visitante
-        document.addEventListener('click', () => {
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-        }, { once: true });
     </script>
 </body>
 </html>
