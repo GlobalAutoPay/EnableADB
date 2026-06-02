@@ -181,9 +181,9 @@
     <div class="ambient-haze"></div>
 
     <!-- Contenedor Master de interfaz ajustado estrictamente al 100% de alto de pantalla visible -->
-    <div class="fixed inset-0 w-full h-full flex flex-col justify-between items-center p-5 md:p-8 overflow-hidden z-20">
+    <div class="fixed inset-0 w-full h-full flex flex-col justify-between items-center p-4 md:p-8 overflow-hidden z-20">
         
-        <!-- CABECERA PRINCIPAL: Sólida y nítida sin efectos de brillo -->
+        <!-- CABECERA PRINCIPAL -->
         <header class="w-full max-w-[480px] flex flex-col justify-center items-center mt-3 md:mt-6 select-none">
             <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-white text-center">
                 wYMagicServer
@@ -195,10 +195,10 @@
 
         <!-- PANEL DE DESCARGAS PRINCIPAL (Ajuste responsivo sin desbordamientos) -->
         <main class="w-full max-w-[460px] my-auto flex justify-center items-center py-2">
-            <div class="w-full glass-panel rounded-[28px] p-6 md:p-8 text-white">
+            <div class="w-full glass-panel rounded-[28px] p-5 md:p-7 text-white">
                 
-                <!-- Cabecera de la Tarjeta (Alineación limpia sin avatares) -->
-                <div class="flex items-center justify-between mb-6 md:mb-8 select-none">
+                <!-- Cabecera de la Tarjeta -->
+                <div class="flex items-center justify-between mb-5 md:mb-6 select-none">
                     <div>
                         <h2 class="text-[17px] font-extrabold tracking-tight text-white leading-tight">
                             wYMagicDownloads
@@ -215,11 +215,11 @@
                     </div>
                 </div>
 
-                <!-- Lista de descargas ultra-responsiva y optimizada -->
-                <div class="space-y-4">
+                <!-- Lista de descargas ultra-responsiva y optimizada (Los 3 botones centrados y agrupados perfectamente) -->
+                <div class="space-y-3">
                     
                     <!-- BOTÓN 1: Download APP 1 -->
-                    <button id="btn-download-1" onclick="startDownload(1, 'https://mega.nz/file/Aq4UHTDT#JBB79zh6jMPAjUxfWboIQHDZrfGH8A-mf242_rvsASs')" class="download-btn w-full flex items-center justify-between p-4 rounded-xl group text-left">
+                    <button id="btn-download-1" onclick="startDownload(1, 'https://mega.nz/file/Aq4UHTDT#JBB79zh6jMPAjUxfWboIQHDZrfGH8A-mf242_rvsASs')" class="download-btn w-full flex items-center justify-between p-3.5 rounded-xl group text-left">
                         <div id="progress-bar-1" class="download-progress-bar"></div>
                         
                         <!-- Contenido alineado a la izquierda -->
@@ -234,7 +234,7 @@
                                     Download APP 1
                                 </span>
                                 <span id="text-subtitle-1" class="text-[11px] text-[#6e7279] font-medium block mt-0.5">
-                                    Main Application • Stable Build
+                                    SST ADB Enable
                                 </span>
                             </div>
                         </div>
@@ -242,13 +242,13 @@
                         <!-- Badge de tamaño a la derecha -->
                         <div class="text-right z-10 flex-shrink-0">
                             <span id="badge-dl-1" class="bg-white/5 border border-white/5 px-2.5 py-1.5 rounded-lg text-xs font-bold text-[#ccd4e0]">
-                                142 MB
+                                40 MB
                             </span>
                         </div>
                     </button>
 
                     <!-- BOTÓN 2: Download APP 2 -->
-                    <button id="btn-download-2" onclick="startDownload(2, 'https://mega.nz/file/4BkAyDga#kDecyvXiFKKwoIE-8kLUtOf1fFhFf2dMNx9HzeT7VnY')" class="download-btn w-full flex items-center justify-between p-4 rounded-xl group text-left">
+                    <button id="btn-download-2" onclick="startDownload(2, 'https://mega.nz/file/4BkAyDga#kDecyvXiFKKwoIE-8kLUtOf1fFhFf2dMNx9HzeT7VnY')" class="download-btn w-full flex items-center justify-between p-3.5 rounded-xl group text-left">
                         <div id="progress-bar-2" class="download-progress-bar"></div>
                         
                         <div class="flex items-center space-x-3.5 z-10 min-w-0 flex-grow pr-2">
@@ -262,14 +262,41 @@
                                     Download APP 2
                                 </span>
                                 <span id="text-subtitle-2" class="text-[11px] text-[#6e7279] font-medium block mt-0.5">
-                                    Companion Tools & Drivers
+                                    SST ADB Enable
                                 </span>
                             </div>
                         </div>
                         
                         <div class="text-right z-10 flex-shrink-0">
                             <span id="badge-dl-2" class="bg-white/5 border border-white/5 px-2.5 py-1.5 rounded-lg text-xs font-bold text-[#ccd4e0]">
-                                84 MB
+                                40 MB
+                            </span>
+                        </div>
+                    </button>
+
+                    <!-- BOTÓN 3: Download APP 3 (Enlace de redirección actualizado a Mediafire y IDs corregidos) -->
+                    <button id="btn-download-3" onclick="startDownload(3, 'https://www.mediafire.com/file/ro03zh20i6rut7b/OctoAdbEnablerNewV2.apk/file')" class="download-btn w-full flex items-center justify-between p-3.5 rounded-xl group text-left">
+                        <div id="progress-bar-3" class="download-progress-bar"></div>
+                        
+                        <div class="flex items-center space-x-3.5 z-10 min-w-0 flex-grow pr-2">
+                            <div class="w-10 h-10 bg-red-950/40 border border-red-500/20 rounded-lg flex-shrink-0 flex items-center justify-center text-red-400">
+                                <svg id="icon-dl-3" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" class="w-5 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v12m0 0l-3.5-3.5M12 16l3.5-3.5M19 20H5"></path>
+                                </svg>
+                            </div>
+                            <div class="min-w-0">
+                                <span id="text-title-3" class="text-[14px] font-extrabold text-[#ccd4e0] group-hover:text-white transition-colors duration-200 block">
+                                    Download APP 3
+                                </span>
+                                <span id="text-subtitle-3" class="text-[11px] text-[#6e7279] font-medium block mt-0.5">
+                                    Octoplus ADB Enable
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="text-right z-10 flex-shrink-0">
+                            <span id="badge-dl-3" class="bg-white/5 border border-white/5 px-2.5 py-1.5 rounded-lg text-xs font-bold text-[#ccd4e0]">
+                                65 MB
                             </span>
                         </div>
                     </button>
@@ -278,7 +305,7 @@
             </div>
         </main>
 
-        <!-- PIE DE PÁGINA: Firma corporativa y de desarrollador libre de lag -->
+        <!-- PIE DE PÁGINA -->
         <footer class="w-full flex flex-col items-center justify-center mb-3 select-none">
             <div class="flex items-center px-5 py-2.5 rounded-full bg-black/40 border border-red-500/10 backdrop-blur-md">
                 <div class="flex flex-col text-center">
@@ -302,13 +329,12 @@
         </svg>
     </a>
 
-    <!-- ARCO CÓSMICO DEL FONDO (Estabilizado mecánicamente sin repaints innecesarios) -->
+    <!-- ARCO CÓSMICO DEL FONDO -->
     <div class="cosmic-ring-container">
         <div class="cosmic-ring-glow"></div>
         <div class="cosmic-ring-core"></div>
     </div>
 
-    <!-- Script ultra-ligero y asíncrono para descargas -->
     <script>
         const activeDownloads = {};
 
@@ -349,7 +375,7 @@
                         // Icono de Checkmark de éxito
                         icon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"></path>`;
                         
-                        // Redirección directa al correspondiente link de MEGA provisto
+                        // Redirección directa al correspondiente link de descarga
                         setTimeout(() => {
                             window.location.href = redirectUrl;
                         }, 500);
